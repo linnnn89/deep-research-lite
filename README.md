@@ -2,64 +2,81 @@
 
 [简体中文](README.zh-CN.md)
 
-A compact, platform-neutral agent skill for rigorous, source-grounded research.
+A cost-aware, platform-neutral research skill for personal Codex and tool-using agent
+workflows.
 
-Deep Research Lite distills several high-value patterns from long-horizon research agents into a practical `SKILL.md`:
+Deep Research Lite keeps the most useful ideas from long-horizon research agents while
+removing the assumption that every task deserves many searches, multiple agents, a
+separate writer, and an external reviewer.
 
-- dynamic research outlines
-- goal-directed source reading
-- explicit claim–evidence mapping
-- contradiction and gap tracking
-- context checkpoints
-- selective parallel research
-- adversarial verification
-- auditable stopping gates
+## What changed in v1.1
 
-The default design uses a **single research agent**. Parallel branches are added only when subquestions are genuinely independent.
+The project is now optimized for individual users with limited token, API, context, or
+local-compute budgets:
 
-## Why this project exists
+- **Instant / Research / Deep** operating modes
+- single-agent execution by default
+- soft tool-call and research budgets
+- an information-value test before additional retrieval
+- compact evidence records for ordinary work
+- full evidence records only when methodology is load-bearing
+- no external stop auditor in normal Research mode
+- independent auditing and parallel branches reserved for Deep mode
+- cost-aware stopping when more research is unlikely to change the answer
 
-Many deep-research systems combine a specialized model, custom search services, long-running ReAct loops, summarization models, benchmark infrastructure, and large deployment stacks. Those systems can be powerful, but their workflows are difficult to reuse as a lightweight agent skill.
+The aim is not to make research shallow. It is to spend tokens where they can change the
+conclusion, confidence, or next action.
 
-Deep Research Lite separates the reusable research method from the original engineering stack. It is designed to work with any agent environment that can:
+## Operating modes
 
-1. read a Markdown skill or system instruction;
-2. search or retrieve external information;
-3. inspect source content;
-4. maintain a small structured research state.
+| Mode | Best for | Default behavior |
+|---|---|---|
+| **Instant** | Narrow current questions and focused lookups | 1–5 tool calls, no ledger, no auditor |
+| **Research** | Repository reviews, paper comparisons, policy and technical analysis | Single agent, compact evidence, usually 4–10 high-value tool calls |
+| **Deep** | User-approved exhaustive or high-stakes multi-branch work | Full evidence, selective parallelism, independent stop audit |
 
-No particular model, search API, agent framework, or local inference server is required.
+All limits are soft. They may be exceeded when a critical uncertainty, contradiction, or
+missing primary source justifies the cost.
 
 ## Core workflow
 
 ```text
-Frame the research contract
-→ build a provisional question map
-→ search and read with explicit evidence goals
-→ maintain a claim–evidence ledger
-→ resolve contradictions and important gaps
-→ run counterevidence review
-→ request termination
-→ pass an auditable stopping gate
-→ synthesize section by section
+Freeze a small research contract
+→ build the minimum useful question map
+→ retrieve the highest-value evidence
+→ maintain compact claim–evidence records
+→ test counterevidence proportionally to risk
+→ stop when the next action has low expected answer change
+→ synthesize only what the user needs
 ```
+
+## Cost-control principles
+
+- Evidence quality matters more than source count.
+- Ten outlets repeating one announcement are one evidence chain.
+- Search-result snippets are discovery aids, not final evidence.
+- Additional retrieval must be able to change the answer, confidence, or recommendation.
+- Checkpoints should save more context than they cost.
+- Parallel agents should not research overlapping questions.
+- A separate auditor is a Deep-mode expense, not a default ritual.
+- Token or tool exhaustion must be reported as partial completion, never success.
 
 ## Anti-premature-stopping design
 
-The research agent cannot approve its own completion.
+Cost control does not allow unsupported conclusions.
 
-Before stopping, it must generate a structured `STOP_REPORT`. A separate auditor or deterministic gate checks for:
+Instant and Research modes use compact deterministic completion checks. Deep mode adds a
+structured `STOP_REPORT`, an independent adversarial auditor, and blocker validation.
 
-- unanswered top-level questions
-- unsupported critical claims
-- unresolved critical gaps or contradictions
-- missing primary-source searches
-- missing counterevidence searches
-- search saturation based on redundant queries
-- scope drift from the original research contract
-- hidden source-access failures
+Universal blockers include:
 
-Resource exhaustion, context limits, or two weak searches are not treated as successful completion.
+- unanswered critical deliverables
+- unsupported or snippet-only critical claims
+- hidden contradictions or evidence gaps
+- missing counterevidence review where appropriate
+- scope drift from the original contract
+- concealed source-access failure
+- mistaking resource exhaustion for completion
 
 ## Files
 
@@ -73,53 +90,44 @@ Resource exhaustion, context limits, or two weak searches are not treated as suc
 
 ## Installation
 
-Copy `SKILL.md` into the skill directory used by your agent platform, or include its contents in the agent's instruction-loading mechanism.
-
-Example:
+Copy `SKILL.md` into the skill directory used by your agent or include it through the
+host's instruction-loading mechanism.
 
 ```bash
 mkdir -p ~/.agent/skills/deep-research-lite
 cp SKILL.md ~/.agent/skills/deep-research-lite/SKILL.md
 ```
 
-The exact path depends on the host platform.
+The exact directory depends on the host platform.
 
-## Operating modes
+## Recommended use for personal Codex users
 
-- **Light**: focused current-information questions
-- **Standard**: default for complex multi-source research
-- **Heavy**: exhaustive or high-stakes work with selectively parallel branches
-
-The skill is designed to choose the smallest mode that can answer the task reliably.
-
-## Design principles
-
-- Evidence quality matters more than source count.
-- Search-result snippets are discovery aids, not final evidence.
-- The outline may evolve; the locked research contract may not silently shrink.
-- Conflicting evidence must be resolved or clearly presented.
-- Parallel agents do not vote facts into existence.
-- A result may be partial when evidence or tool access is genuinely insufficient.
-- Uncertainty must be disclosed rather than replaced with false certainty.
+- Use **Instant** for a focused version check, factual lookup, or one-repository question.
+- Use **Research** for most serious repository analysis, technical comparisons, and
+  source-backed recommendations.
+- Use **Deep** only when the user explicitly wants exhaustive work or when independent
+  high-stakes branches justify the extra cost.
+- Keep one agent unless parallel work is clearly independent.
+- Prefer official documentation, repository files, papers, filings, or primary records
+  before reading many secondary summaries.
+- Return a partial result rather than spending indefinitely on a source that remains
+  inaccessible.
 
 ## Scope
 
-This repository provides an orchestration skill, not a trained research model. It does not reproduce the intrinsic capabilities or benchmark performance of any specialized deep-research model.
+This repository provides an orchestration skill, not a trained research model. It does
+not reproduce the intrinsic capabilities or benchmark performance of specialized
+Deep Research models.
 
 ## Acknowledgment
 
-The design was informed by research patterns explored in the [Alibaba-NLP/DeepResearch](https://github.com/Alibaba-NLP/DeepResearch) ecosystem, including dynamic outlines, evidence-grounded synthesis, context compression, and long-horizon information seeking. This repository is an independent workflow distillation and is not affiliated with or endorsed by Alibaba-NLP.
+The design was informed by research patterns explored in the
+[Alibaba-NLP/DeepResearch](https://github.com/Alibaba-NLP/DeepResearch) ecosystem,
+including dynamic outlines, evidence-grounded synthesis, context compression, and
+long-horizon information seeking.
 
-## Contributing
-
-Issues and pull requests are welcome. Useful contributions include:
-
-- platform-specific installation examples
-- stronger deterministic validators
-- evaluation cases for premature stopping
-- domain-specific source hierarchies
-- compact research-state implementations
-- multilingual improvements
+This is an independent workflow distillation and is not affiliated with or endorsed by
+Alibaba-NLP.
 
 ## License
 
