@@ -83,6 +83,11 @@ Universal blockers include:
 ```text
 .
 ├── SKILL.md
+├── references/
+│   ├── foundations.md
+│   ├── operating-modes-and-cost.md
+│   ├── research-state-and-workflow.md
+│   └── completion-and-synthesis.md
 ├── README.md
 ├── README.zh-CN.md
 └── LICENSE

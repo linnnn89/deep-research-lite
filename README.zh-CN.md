@@ -76,6 +76,11 @@ Instant 与 Research 模式采用紧凑、可机械检查的完成条件。Deep 
 ```text
 .
 ├── SKILL.md
+├── references/
+│   ├── foundations.md
+│   ├── operating-modes-and-cost.md
+│   ├── research-state-and-workflow.md
+│   └── completion-and-synthesis.md
 ├── README.md
 ├── README.zh-CN.md
 └── LICENSE
