@@ -95,12 +95,13 @@ Universal blockers include:
 
 ## Installation
 
-Copy `SKILL.md` into the skill directory used by your agent or include it through the
-host's instruction-loading mechanism.
+Copy `SKILL.md` together with the complete `references/` directory into the skill
+directory used by your agent. The entrypoint loads those references as needed.
 
 ```bash
-mkdir -p ~/.agent/skills/deep-research-lite
-cp SKILL.md ~/.agent/skills/deep-research-lite/SKILL.md
+mkdir -p ~/.agents/skills/deep-research-lite
+cp SKILL.md ~/.agents/skills/deep-research-lite/SKILL.md
+cp -R references ~/.agents/skills/deep-research-lite/
 ```
 
 The exact directory depends on the host platform.

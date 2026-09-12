@@ -88,11 +88,12 @@ Instant 与 Research 模式采用紧凑、可机械检查的完成条件。Deep 
 
 ## 安装
 
-将 `SKILL.md` 复制到 Agent 平台的 Skill 目录，或通过宿主平台的指令加载机制引入。
+将 `SKILL.md` 和完整的 `references/` 目录一起复制到 Agent 平台的 Skill 目录。入口会按需读取这些引用文件。
 
 ```bash
-mkdir -p ~/.agent/skills/deep-research-lite
-cp SKILL.md ~/.agent/skills/deep-research-lite/SKILL.md
+mkdir -p ~/.agents/skills/deep-research-lite
+cp SKILL.md ~/.agents/skills/deep-research-lite/SKILL.md
+cp -R references ~/.agents/skills/deep-research-lite/
 ```
 
 具体目录取决于宿主平台。
