@@ -1,60 +1,42 @@
-# Completion, Synthesis, and Failure Handling
+# Deep Completion and Structured Stop Reports
 
-# Stopping without self-deception
+Ordinary Instant and Research tasks use the finish rule in [SKILL.md](../SKILL.md). Do not load this file solely because sources disagree or an ordinary task has an access failure.
 
-The agent may request completion only after passing the checks required by the selected
-mode.
+## Complete, inconclusive, and partial
 
-## Instant completion check
+A research task may be complete with an inconclusive finding when the required investigation was performed, relevant conflicts were assessed, and the evidence supports no stronger answer. Disagreement does not have to disappear.
 
-Confirm internally:
+A task is partial when required verification is unperformed, or missing evidence prevents a required answer. Name the unmet deliverable and its effect on the conclusion. Do not relabel unfinished work as scientific uncertainty, silently change scope, or treat resource exhaustion as successful completion.
 
-```yaml
-instant_check:
-  question_answered: true
-  central_claim_supported: true
-  key_date_or_version_verified: true
-  material_uncertainty_disclosed: true
-```
+When some deliverables are answered and others are not, state their status separately. An unavailable source matters according to the claim it was needed to verify; disclose material access limitations even when adequate independent evidence answers the question.
 
-No STOP_REPORT or external auditor is required.
+## Structured report
 
-## Research completion check
-
-Use a compact self-audit:
+Use this report for Deep review or when the host requires it, not as routine user-facing output:
 
 ```yaml
-research_stop_check:
-  required_deliverables_unanswered: 0
-  unsupported_critical_claims: 0
-  snippet_only_critical_claims: 0
-  unresolved_critical_conflicts: 0
-  open_critical_gaps: 0
-  counterevidence_checked: true
-  scope_drift_detected: false
-  material_access_failures_disclosed: true
-  next_action_expected_answer_change: low
+STOP_REPORT:
+  deliverables:
+    - question: ""
+      status: answered|answered_inconclusive|unmet
+      finding_and_evidence: ""
+  unsupported_critical_claims: []
+  snippet_only_critical_claims: []
+  unassessed_material_conflicts: []
+  required_verification_not_performed: []
+  counterevidence_assessment: "evidence examined and result, or what remains unchecked"
+  residual_uncertainty_and_access_limits: []
+  scope_drift: []
+  next_high_value_action: "specific action, or none with a brief evidence-based reason"
 ```
 
-A deterministic host check may reject completion when any blocking field is nonzero or
-false. A separate LLM auditor is not required by default.
+Residual uncertainty is not automatically a blocker. Unmet deliverables, unsupported or snippet-only critical claims, unassessed consequential conflicts, missed required verification, or scope drift prevent a claim of complete work. Counterevidence must be checked to the extent required by the task's risk.
 
-## Deep completion gate
+This package provides instructions, not an executable completion checker. If a host implements validation, it may check the report fields; a valid schema alone does not establish evidence quality.
 
-Deep mode uses the full gate:
+## Independent Deep review
 
-```text
-researcher requests stop
-→ structured STOP_REPORT
-→ independent adversarial auditor
-→ deterministic blocker check
-→ approve or return required next actions
-```
-
-The auditor receives the contract, question map, evidence records, contradictions, gaps,
-and STOP_REPORT. It should not see polished final prose first.
-
-It returns only:
+Use an independent completion reviewer in Deep when delegation is authorized and available. Give it the contract, evidence map, conflicts, gaps, and stop report before polished final prose. It returns:
 
 ```yaml
 decision: approve|reject
@@ -62,96 +44,12 @@ blockers: []
 required_next_actions: []
 ```
 
-## Universal hard blockers
+The reviewer should identify specific unsupported claims or unmet work. It must not require arbitrary source counts, agreement across studies, or further searches without an unresolved decision need. Respond only to concrete blockers, then reassess completion.
 
-Do not claim successful completion when:
+If independent review is unavailable or unauthorized, perform a self-check and disclose that independent review was not performed. Do not claim an auditor approved the work or repeatedly launch replacement reviewers. An explicitly required independent audit remains unmet until performed.
 
-- a required critical question remains open
-- a critical claim lacks evidence
-- a critical claim relies only on a search snippet
-- a critical contradiction or gap is hidden
-- no appropriate counterevidence check was performed
-- the scope drifted from the locked contract
-- material source failures were concealed
-- tool, token, context, or time exhaustion is being mistaken for completion
+## Synthesis
 
-A user budget may force a partial stop. Label it `partial`, list unmet deliverables, and
-explain how the limitation affects confidence.
+Answer required questions directly, linking claims to evidence and explaining material uncertainty and practical implications. Include only sections that add information; combine repeated conclusions and limitations. Add methods, date coverage, and source scope when needed to interpret the result or when requested.
 
-# Synthesis
-
-Write from the final question map, not chronological browsing history.
-
-For each section:
-
-1. answer the branch directly
-2. present the strongest evidence
-3. explain the implication
-4. address material counterevidence or limitation
-5. state what the user should conclude or do
-
-Retrieve only evidence relevant to that section.
-
-## Default output
-
-```markdown
-# Bottom line
-
-Direct answer.
-
-## Analysis
-
-Only the sections needed for the user's decision.
-
-## Uncertainty and limitations
-
-Established, inferred, disputed, and unresolved items.
-
-## Research note
-
-- Checked through: date and timezone
-- Evidence scope: concise source range
-- Unresolved issues: none or short list
-```
-
-Place citations close to supported claims.
-
-# Quality rules
-
-- Do not fabricate facts, citations, quotations, or source access.
-- Do not imply a source was read when only a snippet was seen.
-- Do not conceal conflicting evidence.
-- Do not replace uncertainty with false certainty.
-- Do not expand scope without expected decision value.
-- Do not use fixed source counts as a substitute for evidence quality.
-- Do not require separate planner and writer models.
-- Do not require local model serving or a particular framework.
-- Do not expose private chain-of-thought.
-- Do not invoke an external auditor by default.
-- Do not treat resource exhaustion as successful completion.
-- Prefer compact records over copied passages.
-- Keep the answer proportional to the user's need and budget.
-- Respect copyright and quotation limits.
-
-# Failure handling
-
-When a source cannot be accessed:
-
-1. try an official mirror, alternate format, repository file, abstract, or archive
-2. seek the same claim in an independent authoritative source
-3. lower confidence if primary evidence remains unavailable
-4. disclose the limitation when material
-
-When evidence conflicts:
-
-1. verify definitions, dates, versions, and populations
-2. compare methods, jurisdictions, and applicability
-3. prefer more direct and relevant evidence
-4. present unresolved disagreement honestly
-
-When tools fail or budget is exhausted:
-
-- preserve verified findings
-- answer partially rather than pretending completion
-- state exactly what remains unchecked
-- do not launch replacement branches unless their expected value justifies the cost
+For conflicting evidence, verify definitions, dates, versions, populations, methods, and applicability before comparing results. Prefer direct and relevant evidence, and report any remaining disagreement accurately. Do not fabricate source access, findings, numbers, citations, or quotations; respect quotation and copyright limits.

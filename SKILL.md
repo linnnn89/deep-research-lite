@@ -5,88 +5,42 @@ description: Conduct cost-aware, source-grounded research with the smallest suff
 
 # Deep Research Lite
 
-## Purpose
+Answer the user's decision need with the smallest sufficient investigation. Additional work must be able to change the answer, confidence, or required deliverable.
 
-Produce decision-useful research without treating every question as an exhaustive review.
+## Modes and loading
 
-Core rule:
+- **Instant:** A narrow question; usually 1–5 useful tool operations. No ledger, checkpoint, or auditor.
+- **Research:** Multi-source analysis; one agent, usually 4–10 useful operations, normally no more than 12 without a concrete unresolved need. Keep brief claim–source notes and assess the strongest counterevidence.
+- **Deep:** User-requested exhaustive work, or several independent high-stakes branches that Research cannot cover responsibly. Use the relevant references below; delegation requires available tools and authorization.
 
-> Use the smallest mode that can answer the user's actual decision need reliably.
+These are soft envelopes, not quotas. Count actual searches and source reads within batched calls, not just outer wrappers. Extend only for a specific critical gap, contradiction, required deliverable, or necessary independent verification.
 
-Additional research should be able to change the answer, confidence, or next action. Do not expand scope merely because adjacent information exists.
+**This entry is sufficient for ordinary Instant and Research tasks.** Do not read references merely to select Research, build an ordinary evidence map, or finish the answer. For stable facts, supplied-text summaries, translation, or arithmetic, use the direct path.
 
-## Activation Boundary
+## Research workflow
 
-Use this skill when the request needs current or externally verifiable information, multiple evidence chains, comparison of competing claims, repository or paper investigation, due diligence, literature review, or explicit treatment of uncertainty and contradictions.
+1. Fix the question, deliverables, scope, and relevant date, version, population, or jurisdiction. Clarify only if missing information materially changes the work; otherwise proceed with a brief assumption.
+2. Retrieve authoritative evidence for the open claims that matter. Prefer primary sources. Read relevant passages first; expand to methods, tables, or full text when needed to interpret the claim accurately.
+3. Keep only useful findings: **claim → finding → source → material limitation**. Update changed findings rather than rewriting a contract, budget, and ledger after every read. Preserve exact numbers, methods, populations, effects, and uncertainty when they affect the conclusion.
+4. Assess central counterevidence or alternative explanations proportionally to risk. Existing reads can satisfy this check; a separate search is needed only when evidence is insufficient. High-stakes conclusions normally need primary evidence plus independent verification, or two independent authoritative sources if primary evidence is unavailable.
 
-For a stable fact, supplied-text summary, translation, arithmetic task, or focused single-source lookup, answer directly or use the lightest available path.
+## Retrieval and context
 
-## Mode Selection
+- Batch related queries and independent reads within one agent when supported. Keep dependent actions sequential; batching is not permission to add speculative queries or duplicate agents.
+- Request short search results and targeted source passages. Increase returned detail only for a specific evidence need. Search snippets locate sources; they cannot alone substantiate critical final claims.
+- Reuse sources already read. Repeated reports of one upstream source are one evidence chain. Verify important dates, versions, names, quantities, and quotations against the underlying evidence.
+- After access failure, try a promising alternate format or source. Retry the same failed path only if new evidence suggests it can work. If required evidence remains unavailable, state the gap and its effect on confidence.
+- Do not generate checkpoints on a call count or phase schedule. Use a compact handoff only for actual context pressure or resumption. An appended summary does not remove old messages; actual context compaction depends on the host.
 
-### Instant
+## Finish and answer
 
-Use for a narrow question answerable with a few authoritative lookups. Keep the question small, verify the load-bearing fact, and stop.
+Stop when required work is covered, critical claims are supported, material conflicts and counterevidence are assessed, and no next action has substantial expected decision value. A supported finding that evidence is inconclusive is a valid outcome; unresolved disagreement need not become zero. Unperformed required verification or missing evidence that prevents a required answer means **partial**, not complete. Budget exhaustion is not proof of completion.
 
-### Research
+Lead with the answer and include only decision-relevant analysis. Put citations next to the claims they support; distinguish direct evidence, inference, disagreement, and unknowns. Disclose material access failures and unmet deliverables without silently shrinking scope. Merge repetitive sections; include a research date or methods note only when it matters or is requested.
 
-Use for most serious multi-source work: repository analysis, paper comparison, policy interpretation, technical decisions, and source-backed recommendations. Default to one agent, compact evidence records, one counterevidence pass, and no separate auditor.
+## Conditional references
 
-### Deep
-
-Use only for user-approved exhaustive work or several genuinely independent high-stakes branches. It may add full evidence records, up to three non-overlapping parallel branches, checkpoints, adversarial review, and an independent completion audit.
-
-The numerical budgets in [operating-modes-and-cost.md](references/operating-modes-and-cost.md) are soft envelopes, not quotas or permission to stop with unsupported claims.
-
-## Core Workflow
-
-1. Lock the question, user goal, required deliverables, scope, exclusions, and time boundary.
-2. Build the smallest question map capable of answering that contract.
-3. Retrieve the highest-value evidence, preferring primary and authoritative sources.
-4. Attach evidence to claims and distinguish direct support, inference, contradiction, and unresolved gaps.
-5. Test the strongest alternative explanation or counterevidence in proportion to risk.
-6. Continue only while the next action could materially change the answer, confidence, or required deliverable.
-7. Synthesize from the final evidence map, not from browsing chronology.
-
-## Evidence Rules
-
-- Source quality, directness, applicability, recency, and independence matter more than source count.
-- Repeated reporting of one upstream source is one evidence chain.
-- Search snippets discover sources; they do not normally support final critical claims.
-- Verify important dates, versions, names, quantities, and quotations against the underlying source.
-- Label inference and unresolved disagreement.
-- If a source failure affects the answer, disclose the limitation and lower confidence accordingly.
-
-## Cost and Parallelism
-
-Before another substantial search, source read, branch, or review, ask what unresolved claim it addresses and what result could change the conclusion.
-
-Use parallel work only when branches are genuinely independent. Do not send several agents after the same direction, and do not add a planner, writer, or auditor merely to repeat one evidence chain.
-
-When the available budget cannot finish the contract, return a clearly labeled partial result with unmet deliverables and their effect on confidence.
-
-## Completion Gate
-
-Before claiming completion, confirm that:
-
-- required critical deliverables are answered
-- central claims have appropriate support
-- no critical claim relies only on a search snippet
-- material contradictions and access failures are disclosed
-- required counterevidence was checked
-- scope did not silently drift
-- the next available action has low expected answer change
-
-Use stricter structured checks for Deep mode. Resource exhaustion is a partial stop, not successful completion.
-
-## Synthesis
-
-Lead with the direct answer. Include only the analysis needed for the user's decision, place citations near claims, and distinguish established, inferred, disputed, and unresolved points. Add a compact research note when date coverage, evidence scope, or remaining gaps matter.
-
-## Reference Routing
-
-- Read [foundations.md](references/foundations.md) when resolving activation boundaries or adapting this framework to another host.
-- Read [operating-modes-and-cost.md](references/operating-modes-and-cost.md) when selecting Research or Deep mode, budgeting retrieval, or deciding whether to parallelize.
-- Read [research-state-and-workflow.md](references/research-state-and-workflow.md) for multi-source question maps, evidence records, checkpoints, retrieval planning, or proportional verification.
-- Read [completion-and-synthesis.md](references/completion-and-synthesis.md) before closing a complex Research or Deep task, or when evidence conflicts, sources fail, or work must stop partially.
-
-Do not load every reference for Instant mode.
+- [Operating modes and cost](references/operating-modes-and-cost.md): Read before arranging Deep work or authorized independent branches.
+- [Research state and workflow](references/research-state-and-workflow.md): Read when an explicit detailed evidence ledger or resumable handoff is required, not for ordinary claim–source notes.
+- [Completion and synthesis](references/completion-and-synthesis.md): Read for a Deep completion audit or a host-required structured stop report.
+- [Foundations](references/foundations.md): Read only for an unresolved activation boundary or adaptation to another host.
