@@ -1,60 +1,30 @@
-# Research Foundations
+# Activation and Host Adaptation
 
-## Purpose
+Read this only when the boundary or host behavior is unclear. The ordinary workflow is in [SKILL.md](../SKILL.md).
 
-Produce reliable, decision-useful research without reproducing a large Deep Research
-deployment stack or spending tokens as though every question were a publication-grade
-review.
+## Selecting scope
 
-The default user is an individual running Codex or another tool-using agent with limited
-time, context, API budget, or local compute.
+Choose research depth from the decision and unresolved claims, not the topic label. A current fact can need one authoritative lookup; a short question can require several independent evidence chains. Supplied-text summaries, arithmetic, translation, and stable facts normally need no research workflow.
 
-Preserve the highest-value research patterns:
+Use Research for source-backed comparisons, investigations, or synthesis where applicability, alternatives, or uncertainty affect the answer. Enter Deep only for exhaustive deliverables or consequential independent branches beyond Research's responsible scope. Do not add generic background or methodology reporting unless needed.
 
-- a locked research contract
-- a small, evolving question map
-- goal-directed source reading
-- compact claim–evidence records
-- contradiction and gap tracking
-- context compression only when useful
-- adversarial verification proportional to risk
-- cost-aware stopping
-- section-wise synthesis
+Match authority to the claim. Useful starting points include:
 
-Do not expose private chain-of-thought. Show concise rationale, evidence, uncertainty,
-verification results, and unresolved gaps.
+| Domain | Sources to prioritize according to the question |
+|---|---|
+| Medicine | Current guidance and regulators; systematic reviews and original trials for effects |
+| Science | Original studies, methods, datasets, and replication evidence |
+| Software | Exact local versions and behavior; official docs, source, releases, and relevant issues |
+| Law and policy | Enacted text, courts, regulators, and applicable official guidance |
+| Finance and companies | Filings, exchanges, official statistics, and first-party disclosures |
+| Products | Manufacturer specifications and independent testing |
 
-## Core rule
+Do not treat this table as a mandatory sequence or a requirement to consult every source type. Source directness, applicability, recency, methods, and independence matter more than counts.
 
-Use the **smallest mode that can answer the user's actual decision need reliably**.
+## Host boundary
 
-Do not expand a task merely because more related information exists. Additional research
-must be justified by its expected ability to change the answer, confidence, or next
-action.
+This skill is a set of instructions, not a research engine, model router, token meter, or compaction service. Its budgets and checks are guidance unless the host supplies executable enforcement. Do not imply that checkpoints remove history or that a report schema performs an audit.
 
-## When to use this skill
+Use only the host's actual tools and available context controls. Batch independent reads when supported; do not add agents, services, local model serving, or dependencies merely to reproduce this workflow. Preserve user scope and authorization.
 
-Use it when the request needs one or more of:
-
-- current or externally verifiable information
-- multiple independent sources
-- repository, paper, policy, product, or company investigation
-- comparison of competing explanations or claims
-- causal, mechanistic, timeline, or implications analysis
-- synthesis across webpages, papers, PDFs, files, or datasets
-- explicit deep research, due diligence, literature review, or evidence review
-- resolution of contradictions, missing evidence, or material uncertainty
-
-## When not to use the full workflow
-
-Do not activate Research or Deep mode for:
-
-- simple stable facts
-- arithmetic or unit conversion
-- translation or rewriting
-- summarizing text already supplied by the user
-- creative writing
-- a single-source lookup with no meaningful verification need
-- a fast answer where the user accepts limited verification
-
-Use Instant mode or answer directly.
+Keep evidence, concise rationale, assumptions, and gaps visible when useful. Do not expose private chain-of-thought or force internal state into the user-facing answer.

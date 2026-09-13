@@ -1,243 +1,52 @@
-# Research State and Workflow
+# Detailed Evidence and Resumable State
 
-# Research state
+Use this reference when a detailed evidence ledger or handoff is required. Ordinary Research uses the brief claim–source notes in [SKILL.md](../SKILL.md).
 
-Use the **compact state by default**.
+## Detailed records
 
-```yaml
-research_state:
-  contract:
-    question: ""
-    user_goal: ""
-    required_deliverables: []
-    scope: []
-    exclusions: []
-    time_boundary: ""
-    locked: true
+Store shared scope, deliverables, date coverage, population, and jurisdiction once. Link individual claims to their sources; do not copy the shared contract into every record. Use identifiers only when they simplify cross-references.
 
-  questions:
-    - id: Q1
-      text: ""
-      importance: critical|supporting
-      status: open|answered|unresolved
-      finding: ""
-      evidence_ids: []
-
-  evidence:
-    - id: E1
-      source: ""
-      finding: ""
-      confidence: high|medium|low
-
-  contradictions: []
-  critical_gaps: []
-  next_high_value_actions: []
-  budget_state: {}
-```
-
-The state is working memory, not a mandatory user-facing table.
-
-## Full evidence mode
-
-Use expanded records only for Deep mode or when methodology and applicability are
-load-bearing, especially in medicine, science, law, finance, or safety-critical work.
+Keep fields that affect interpretation. For example:
 
 ```yaml
 evidence:
   - id: E1
     claim: ""
-    source: ""
+    finding: ""
+    source: "URL, DOI, document section, or file and lines"
     source_type: primary|secondary|commentary
-    publication_date: ""
-    accessed_date: ""
+    publication_date_or_version: ""
     population_or_scope: ""
-    method_or_basis: ""
-    supports: []
-    contradicts: []
-    limitations: ""
-    reliability: high|medium|low
+    method_and_comparator: ""
+    estimate_and_uncertainty: ""
+    limitations: []
+    related_conflicts: []
 ```
 
-Do not pay the token cost of full records when a compact record is sufficient.
+Omit inapplicable fields. Retain exact units, denominators, effect estimates, intervals, endpoint definitions, and follow-up when they are load-bearing. Absence of reported data is not a zero result. A confidence label does not replace an account of study design, applicability, or uncertainty.
 
-# Workflow
+For medical or scientific evidence, preserve the distinction between primary studies, syntheses, and guidance. Check population, intervention/exposure, comparator, outcomes, design, and bias when relevant. Do not combine incompatible estimates or treat repeated publications of one study as independent verification.
 
-## 1. Freeze a small research contract
+## Updating the evidence map
 
-Resolve:
+For each required question, retain its current finding, linked evidence, and only the conflicts or gaps that could affect the answer. Update changed entries rather than reproducing the whole map after each read.
 
-- exact question
-- user's decision or desired output
-- required deliverables
-- included and excluded scope
-- time boundary
-- relevant jurisdiction, population, version, or dataset
-- operating mode
+An evidence conflict may remain after adequate investigation. Record its likely basis and implications without forcing agreement. A missing required result remains a gap; do not substitute a related outcome, population, or date to make the map appear complete.
 
-Store these as a locked contract. The question map may evolve, but the agent may not
-silently shrink the deliverables or redefine success because the task becomes difficult.
+## Handoffs and context pressure
 
-Ask a clarification only when the missing detail would materially change the work.
-Otherwise state the interpretation briefly and proceed.
+Create a compact handoff only when actual context pressure, resumption, or transfer makes it useful. Tool-call counts and phase boundaries do not trigger one by themselves. Do not call a separate summarization agent just to rewrite the current notes.
 
-## 2. Build the smallest useful question map
+Use the smallest sufficient format:
 
-Create only the branches needed to answer the contract.
-
-Common branch types:
-
-- current status or definition
-- direct evidence
-- mechanism or cause
-- competing explanation
-- limitation or counterevidence
-- practical implication
-
-Do not create branches for generic background unless the user needs them.
-
-Update the map only when evidence shows a material omission, redundancy, or structural
-error. Do not force a fixed number of outline revisions.
-
-## 3. Plan high-value retrieval
-
-For each critical open branch, select the minimum useful combination of:
-
-- a precision query
-- a primary or official source query
-- a broader recall query
-- a contradiction or alternative-explanation query
-
-Not every branch needs all four. Choose based on expected information value.
-
-Source preference:
-
-1. official documents, regulators, standards, filings, registries, original datasets
-2. peer-reviewed papers and first-party technical documentation
-3. systematic reviews and professional organizations
-4. reputable reporting with named sources
-5. expert commentary
-6. forums or social media as explicitly labeled anecdotal evidence
-
-Domain priorities:
-
-- medicine: current guidelines, regulators, systematic reviews, pivotal trials
-- science: original papers, datasets, methods, replication evidence
-- software: official docs, source repository, release notes, issue tracker
-- law and policy: enacted text, official guidance, courts, agencies
-- finance and companies: filings, exchanges, investor relations, official statistics
-- products: manufacturer specifications plus independent testing
-
-## 4. Read for a stated evidence goal
-
-Before opening a source, state internally which claim or gap it may address.
-
-Extract only what is needed:
-
-- relevant finding or data
-- date and version
-- applicability
-- method or basis when important
-- limitation
-- whether it supports, weakens, or contradicts the current view
-
-A search-result snippet is discovery evidence, not final support, unless the underlying
-source cannot reasonably be accessed and the limitation is disclosed.
-
-## 5. Maintain compact claim–evidence mapping
-
-After useful reads:
-
-- attach evidence to the relevant question or claim
-- distinguish direct evidence from inference
-- detect dependent or duplicated sourcing
-- record contradictions that could change the answer
-- record only material gaps
-
-Ten outlets repeating one upstream announcement count as one evidence chain.
-
-## 6. Run the information-gain loop
-
-Repeat:
-
-1. inspect critical open questions, contradictions, and gaps
-2. rank possible next actions by expected answer change
-3. perform the highest-value affordable action
-4. update evidence and confidence
-5. run the cost-aware continuation gate
-
-Avoid searches that merely add examples to a stable conclusion.
-
-## 7. Create a checkpoint only when it saves context
-
-A checkpoint is justified when:
-
-- context is crowded
-- roughly 8–12 substantive tool interactions accumulated
-- a major phase is complete
-- branches must be merged
-- the agent is repeating work or losing track of gaps
-
-Compact format:
-
-```markdown
-## Research checkpoint
-
-### Established
-- Finding — evidence IDs — confidence
-
-### Material conflicts
-- Conflict — likely reason — resolving action
-
-### Critical gaps
-- Gap — impact — best next action
-
-### Contract coverage
-- Deliverable: answered|unresolved
-
-### Next high-value actions
-1. ...
-2. ...
+```text
+Contract: question, required outputs, scope and time boundary
+Verified: findings with source IDs and essential applicability
+Conflicts: assessed disagreements and their effect on the answer
+Unmet: required verification or evidence still missing
+Next: specific actions likely to change an answer or fill a required gap
 ```
 
-Replace redundant history with the checkpoint. Do not call a separate summarization
-model merely to produce it.
+In an append-only conversation, a checkpoint adds tokens; it does not evict prior messages. If the host supports compaction, use its actual mechanism when appropriate. Otherwise the handoff is a recovery aid, not a claimed reduction in context size.
 
-## 8. Parallelize only independent work
-
-Parallelism is disabled in Instant and Research mode by default.
-
-In Deep mode, use at most 3 branches and only when questions are genuinely independent,
-such as separate jurisdictions, products, mechanisms, or time periods.
-
-Each branch returns only:
-
-```yaml
-branch_result:
-  question: ""
-  finding: ""
-  key_evidence: []
-  material_conflicts: []
-  unresolved_gaps: []
-  confidence: high|medium|low
-```
-
-Merge by source quality, directness, applicability, recency, and independence. Agent
-agreement is not proof.
-
-## 9. Verify proportionally to risk
-
-For all modes, check:
-
-- load-bearing claims have support
-- dates, versions, names, doses, prices, and important numbers are verified
-- citations support the exact claim
-- inference is labeled
-- uncertainty and applicability are visible
-- source access is represented honestly
-
-Research mode additionally requires one concise counterevidence or alternative-
-explanation pass for central conclusions.
-
-High-stakes or Deep mode should normally use a primary source plus independent
-verification, or two independent authoritative sources when primary evidence is
-unavailable.
+Recover from the handoff and cited sources. Reopen a source only for missing detail, changed versions, or a new claim; do not replay the complete browsing history.

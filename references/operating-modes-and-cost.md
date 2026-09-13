@@ -1,122 +1,38 @@
-# Operating Modes and Cost Control
+# Deep Work and Cost Control
 
-# Operating modes
+Ordinary mode budgets and retrieval rules are in [SKILL.md](../SKILL.md). This reference is for Deep scheduling and delegation, not a prerequisite for Research.
 
-## Instant — default for focused questions
+## Escalation
 
-Use when one narrow question can be answered with a small number of authoritative
-lookups.
+Use Deep for an explicitly exhaustive deliverable, or independent high-stakes branches that cannot be handled responsibly in Research. A large repository, a medical topic, or available extra sources alone does not require Deep. Additional scrutiny should follow the unresolved claim and its consequences.
 
-Typical limits:
+Keep one agent unless independent work offers a concrete benefit and delegation is authorized and available. Use at most three non-overlapping branches. Do not add separate planners or writers to repeat the same evidence chain.
 
-- 0–2 research branches
-- 1–5 tool calls
-- usually 1–4 useful sources
-- no formal evidence ledger
-- no checkpoint
-- no separate auditor
-- one concise verification pass
+Before delegating, assign each branch a question, scope, relevant date/version, source boundary, and concise return format. Share only the context the branch needs. Agent agreement is not independent evidence.
 
-Instant mode may exceed these soft limits only when one additional action is clearly
-likely to resolve a material uncertainty.
+## Budget and retrieval
 
-## Research — default for genuinely complex work
+Choose a soft action or time envelope appropriate to the deliverable. Keep a brief note of remaining critical work; a YAML budget object is unnecessary unless the host needs one. This skill cannot directly enforce token limits, change model settings, or control host compaction.
 
-Use for multi-source analysis, repository review, paper comparison, technical decisions,
-policy interpretation, and most serious personal research tasks.
+Count the substantive searches and source reads inside a batch. Track returned text size and sequential round trips as well as operation count. A single wrapper returning many full documents is not a cheap operation.
 
-Default cost envelope:
+Prefer source identifiers, findings, and relevant passages to copied documents. Request more context when a passage omits a load-bearing definition, method, denominator, comparator, or limitation. Read complete tables or methods when necessary; a text cap must not hide evidence that could reverse the answer.
 
-- 2–5 top-level branches
-- usually 4–10 high-value tool calls
-- normally no more than 12 without an explicit reason
-- single agent
-- compact evidence ledger
-- one checkpoint only if context becomes crowded
-- one counterevidence pass
-- self-audit with deterministic hard checks
-- no separate stop auditor by default
+When a search yields no material evidence, change source or query strategy before repeating it. After an access failure, try the most promising alternative first. Further attempts need a specific reason, such as an official mirror or a corrected identifier; a critical gap does not justify repeating an unchanged failing path.
 
-Exceed the envelope only when:
+Continue beyond the initial envelope only for a concrete unanswered deliverable, weak critical evidence, consequential contradiction, or necessary independent verification. If the needed evidence remains unavailable or the user budget is reached, preserve findings and report the unmet work as partial.
 
-- a critical claim remains unresolved
-- a primary source is missing
-- a contradiction could change the conclusion
-- the user explicitly requests deeper coverage
-- the topic is high stakes and additional verification is necessary
+## Branch results and review
 
-## Deep — opt-in or high-stakes escalation
+Each branch returns only:
 
-Use only when the user explicitly requests exhaustive research, or when several
-independent high-stakes branches cannot be handled responsibly in Research mode.
-
-Deep mode may add:
-
-- up to 3 parallel independent branches
-- full evidence records
-- checkpoints after major phases
-- dedicated adversarial review
-- an independent stop auditor
-- broader source coverage
-
-Do not enter Deep mode merely because the topic is interesting, because the repository
-is large, or because more sources are available.
-
-# Cost and token control
-
-## Budget before breadth
-
-At the start, set a soft budget appropriate to the mode:
-
-```yaml
-budget_state:
-  mode: instant|research|deep
-  tool_call_soft_limit: 5
-  tool_calls_used: 0
-  remaining_high_value_actions: []
-  checkpoint_allowed: false
-  parallelism_allowed: false
-  external_auditor_allowed: false
+```text
+Question and finding
+Key claims with source identifiers and applicability
+Material conflicts, limitations, and unresolved gaps
+Verification performed and remaining critical work
 ```
 
-The budget is not a license to stop with unsupported claims. It is a guard against
-low-value expansion. When the budget is insufficient, either:
+Merge by source quality, directness, applicability, recency, and independence. Preserve material disagreement; do not vote across agents or duplicate upstream reports.
 
-1. justify one or more additional high-value actions; or
-2. return a clearly labeled partial answer with unresolved items.
-
-## Information-value test
-
-Before each nontrivial search, source read, branch, or reviewer call, ask:
-
-1. What unresolved claim or decision will this action address?
-2. What result could change the conclusion, confidence, or recommendation?
-3. Is there a cheaper source or query that can answer the same question?
-4. Is this action duplicating an evidence chain already covered?
-
-Skip the action when its expected answer change is low and it only adds examples,
-background, or repeated confirmation.
-
-## Search efficiency
-
-- Batch closely related queries when supported.
-- Prefer primary or official sources early.
-- Open sources with an explicit evidence goal.
-- Do not read several articles that repeat the same upstream source.
-- Do not run parallel workers over overlapping questions.
-- Do not create a checkpoint unless it will replace more context than it costs.
-- Do not invoke a separate writer merely to restate the same evidence.
-- Do not invoke an external auditor outside Deep mode unless risk justifies the cost.
-
-## Cost-aware continuation gate
-
-Continue researching only when at least one is true:
-
-- the next action may change a central conclusion
-- it may materially change confidence
-- it may resolve a critical contradiction
-- it may replace weak evidence with primary evidence
-- it may answer a required deliverable
-- it is necessary to disclose a high-stakes limitation accurately
-
-Otherwise synthesize the answer.
+For Deep completion, use [completion-and-synthesis.md](completion-and-synthesis.md). If an independent reviewer is used, give it the evidence and contract before polished prose. Limit follow-up to identified blockers; do not restart the whole investigation after each review.
